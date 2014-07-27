@@ -1,0 +1,58 @@
+package mypack;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.util.Scanner;
+
+public class app 
+{
+	public static void main(String[] args)
+	{
+		Connection con;
+		//Statement st;
+		PreparedStatement pst;
+		
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			con=DriverManager.getConnection("jdbc:mysql://localhost/db","root","");
+			//st=con.createStatement();
+			pst=con.prepareStatement("insert into emp values(?,?,?,?)");
+			
+			int id=1;
+			String na;
+			String dept;
+			int ph;
+			Scanner scan=new Scanner(System.in);
+			
+			while(id!=0)
+			{
+				System.out.print("Enter ID-NAME-DEPT-Phone No.: ");
+				id=scan.nextInt();
+				na=scan.next();
+				dept=scan.next();
+				ph=scan.nextInt();
+				if(id!=0)
+				{
+					pst.setInt(1, id);
+					pst.setString(2, na);
+					pst.setString(3, dept);
+					pst.setInt(4, ph);
+					pst.execute();
+					//st.executeUpdate("insert into mytab values("+no+",'"+na+"',"+age+")");
+					
+				}
+			}
+		//st.close();
+		con.close();
+		}
+		
+		catch(Exception e)
+		{
+			System.out.println("Error "+e.getMessage());
+		}
+	}
+
+
+}
